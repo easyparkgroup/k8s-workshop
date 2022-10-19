@@ -73,7 +73,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 2. Deploy an NGINX controller Deployment and Service by running the following command:
 
 ```shell
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
 3. Verify that the nginx-ingress-controller Deployment and Service are deployed to the GKE cluster in ingress-nginx:
@@ -90,6 +90,6 @@ kubectl describe --namespace ingress-nginx service ingress-nginx-controller | gr
 
 in `README.md` and `ingress.yaml`
 
-### Right after finishing workshop, delete the k8s cluster and project
+### After finishing workshop, delete the k8s cluster and project
 
 Otherwise cluster running for a month costs ~50 eur.

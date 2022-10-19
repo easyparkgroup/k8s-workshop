@@ -267,7 +267,7 @@ Log into one container...
 
 ```shell
 # "log in" to the running container
-kubectl exec -it [[podname]] -- /bin/sh
+kubectl exec -it [[podname]] -- bash
 # check java version used in container
 java --version
 ```
@@ -425,7 +425,7 @@ Log into running container...
 ```shell
 kubectl get pods
 # "log in" to the running container
-kubectl exec -it [[podname]] -- /bin/sh
+kubectl exec -it [[podname]] -- bash
 ```
 
 ... and check if conf was actually mounted as file by executing following commands:
@@ -465,7 +465,7 @@ Log into running container...
 ```shell
 kubectl get pods
 # "log in" to the running container
-kubectl exec -it [[podname]] -- /bin/sh
+kubectl exec -it [[podname]] -- bash
 ```
 
 ... and check if variable was injected
@@ -508,7 +508,7 @@ Log into running container...
 ```shell
 kubectl get pods
 # "log in" to the running container
-kubectl exec -it [[podname]] -- /bin/sh
+kubectl exec -it [[podname]] -- bash
 ```
 
 ... and check if all variables were injected

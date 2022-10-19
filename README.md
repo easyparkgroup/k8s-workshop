@@ -1,6 +1,6 @@
 # Kubernetes workshop
 
-## Step 0: Preparations
+## Step 0: Preparations before the workshop
 
 Let's get ready for the workshop, so everyone would be prepared.
 
@@ -29,8 +29,8 @@ Please install these:
               `tar -zxf google-cloud-sdk-332.0.0-linux-x86_64.tar.gz`
             * run the shell installation process with
               `./google-cloud-sdk/install.sh`
-* kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one, then check that it is at
-  least version 1.20
+* kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one,
+  then check that the version is new enough (in one of the following steps)
 
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 
@@ -55,7 +55,7 @@ gcloud container clusters get-credentials k8s-ws-1 --zone europe-west1-b --proje
 
 
 Configure docker credentials,
-register gcloud as a Docker credential helper (~/.docker/config.json)
+register gcloud as a Docker credential helper (following updates ~/.docker/config.json file)
 
 ```shell
 # Option A
@@ -66,10 +66,14 @@ gcloud components install docker-credential-gcr
 docker-credential-gcr configure-docker
 ```
 
+Check that `kubectl` is properly installed
 ```shell
-# check that `kubectl` is properly installed (at least version 1.21)
 kubectl version --output=yaml
+```
+**NB! Check that `clientVersion.gitVersion` is at least 1.21**,
+otherwise update/install newer `kubectl` version based on instructions above to avoid issues.
 
+```shell
 # get k8s nodes in the cluser to check that `kubectl` can communicate with the cluster
 kubectl get nodes
 
@@ -174,7 +178,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=my-name
 kubectl config get-contexts
 ```
 
-> You should see exactly one context when executing following command 
+> You should see exactly one context when executing following command
 > to check that your namespace is configured for current context:
 `kubectl config get-contexts | grep "k8s-ws-" | grep "*" | grep my-name`
 

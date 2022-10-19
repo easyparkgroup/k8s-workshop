@@ -320,9 +320,6 @@ You should be able to access
 from public internet (i.e. using your browser or curl). The full url should look
 like `http://35.187.47.62.nip.io/my-name/actuator/health`
 
-> Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
-> `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
-
 ## Step 7: Create autoscaler
 
 Let's make our service scale horizontally based on actual usage.

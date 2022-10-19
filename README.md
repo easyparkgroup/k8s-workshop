@@ -2,7 +2,10 @@
 
 ## Step 0: Preparations before the workshop
 
-Let's get ready for the workshop, so everyone would be prepared.
+In this step you will get ready for the workshop, so everyone would be prepared when the workshop starts.
+
+> NB! If you encounter issues, inform the host of the workshop in time
+> to be able to receive help before workshop starts!
 
 ### Install required software
 
@@ -38,7 +41,9 @@ Open the terminal and run following lines one by one:
 
 ```shell
 # after following command browser will be opened,
-# where you should log into google cloud with EasyPark email to authenticate `gcloud` CLI
+# where you should log into google cloud
+# (with the Google email address that was used in the workshow calendar invite)
+# to authenticate `gcloud` CLI
 gcloud auth login
 ```
 
@@ -67,9 +72,11 @@ docker-credential-gcr configure-docker
 ```
 
 Check that `kubectl` is properly installed
+
 ```shell
 kubectl version --output=yaml
 ```
+
 **NB! Check that `clientVersion.gitVersion` is at least 1.21**,
 otherwise update/install newer `kubectl` version based on instructions above to avoid issues.
 
@@ -107,14 +114,14 @@ to allow non-privileged users to run Docker commands.
 
 ## Step 1: Create java application
 
-Lets generate an application that has health endpoint (needed for k8s).
+In this step you will generate a **web** application that has **health endpoint** (needed for k8s).
 > No worries, you don't need to have Java, Gradle etc installed locally - that will be built in docker!
 
 1. Go to this webpage: https://start.spring.io
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.6.6 (or what the default is)
+    3. Spring Boot: 2.7.4 (or what the default is)
     4. Project metadata:
         1. defaults
         2. Java: 11
@@ -126,7 +133,7 @@ Lets generate an application that has health endpoint (needed for k8s).
 
 ## Step 2: Dockerize the java application
 
-Let's create a docker image, so that k8s wouldn't care what language or tech stack our application uses.
+In this step you will package the application as a Docker container image, so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in
    the same folder)
@@ -141,13 +148,17 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 
 ## Step 3: Push the image to Container Registry
 
+In this step you willupload the application Docker container image to Google Container Registry,
+so that when deploying the application, Kubernetes would be able to use that image.
+
 Follow sub-steps bellow, after that you can see uploaded images via web interface:
 https://console.cloud.google.com/gcr/images/k8s-ws-1
 
 ### Intel/AMD Users
 
 1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-1/my-name:1```
-    1. If you have problems, run `gcloud auth configure-docker`
+
+> If you have problems, you may have not configure docker credentials properly - see Step 0
 
 ### Mac M1 Users
 
@@ -163,7 +174,8 @@ There are now two options for you:
 
 ## Step 4: Create deployment
 
-Let's create a deployment, specifying pods (instances) count, liveness/readiness probes and update strategy.
+In this step you will create a deployment, specifying pods (instances) count, liveness/readiness probes and update
+strategy.
 
 Configure k8s context and namespace to be used for following commands
 (to avoid passing `--context` and `--namespace` with each following command)
@@ -192,20 +204,25 @@ kubectl get pods,deployments,nodes
 kubectl get pods
 ```
 
-Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
+To create the deployment:
+
+* Create [deployment](deployment.yaml) (uploads manifest from given file to kubernetes)
+* Change the image reference from my-name to your own image name
+  (Mac users may also need to update image version)
+* Run following command to create the Deployment:
 
 ```shell
-# NB! need to change the image reference from my-name to your own image
 kubectl apply -f deployment.yaml
 ```
 
-See if deployment created pod (hopefully in ContainerCreating and soon in Running status)
+See if the Deployment created pod
+(status should change from `ContainerCreating` to `Running` in few seconds)
 
 ```shell
 # now you should see one pod (in selected namespace of selected k8s cluster)
 kubectl get pods
 
-# Investigate events (specially if pod isn't in running status)
+# Investigate events (specially if pod isn't in `Running` status)
 kubectl describe pod [[podname]]
 
 # Investigate pod logs
@@ -225,6 +242,8 @@ kubectl delete pod [[podname]]
 kubectl get pods
 ```
 
+Think, what was the effect of deleting the pod. Why such effect?
+
 Try adding more pods of the same deployment:
 
 ```shell
@@ -234,16 +253,19 @@ kubectl edit deployment demo
 # or edit with nano
 # (that is easier to learn than vi)
 KUBE_EDITOR="nano" kubectl edit deployment demo
+```
 
-#change `replicas: 2`, save and quit
+Change value of `spec.replicas` to 2, save and quit
 
+```shell
 # check number of pods: 
 kubectl get pods
 ```
 
 ## Step 5: Create service
 
-Let's create a [service](service.yaml), so all our healthy application pods would be accessible from same (non-public)
+In this step you will create a [service](service.yaml),
+so all your healthy application pods would be accessible from same (non-public)
 endpoint of the service.
 
 ```shell
@@ -254,6 +276,8 @@ Get information about the service, pods and namespaces used later
 
 ```shell
 # Check which services you have now
+kubectl get services
+# .. or using alias
 kubectl get svc
 # Check the details of that service
 kubectl describe svc demo
@@ -294,16 +318,17 @@ curl demo.some-namespace.svc.cluster.local/actuator/health
 
 ## Step 6: Create ingress
 
-Let's make the service accessible from the public web (via IP-address/hostname).
+In this step you will make the service accessible from the public web (via IP-address/hostname).
 
-Replace the public path name in [ingress.yaml](ingress.yaml) from `${yourName}` to *your name*.
+Replace the public path name in [ingress.yaml](ingress.yaml) from `${yourName}` to *your name*
+(it just needs to be different from other participants of the k8s workshop).
 
 ```shell
 kubectl apply -f ingress.yaml
 ```
 
 > This ingress configuration for our service gets read by Ingress Controller
-(that uses Nginx server with this specific ingress setup).
+(that uses Nginx server with this specific cluster ingress setup that has been prepared by the host for you).
 > Ingress Controller has Nginx routing configuration,
 > which is combined from ingress configurations (with rules for rewriting paths) of different services.
 
@@ -322,7 +347,7 @@ like `http://35.187.47.62.nip.io/my-name/actuator/health`
 
 ## Step 7: Create autoscaler
 
-Let's make our service scale horizontally based on actual usage.
+In this step you will make your service scale horizontally based on actual usage/load.
 
 [Autoscaler](autoscaler.yaml) works on comparing actual resource usage
 (see `kubectl top pods`)
@@ -342,7 +367,8 @@ kubectl get horizontalpodautoscalers
 kubectl top pods
 ```
 
-Watch what happens to pods and autoscaler:
+Start watching what happens to pods and autoscaler
+(relevant when you start generating load bellow):
 
 ```
 # on linux you can use `watch` to evaluate expression periodically:
@@ -352,7 +378,7 @@ watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
 In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
-2. Run **locust** locally ```docker run -p 8089:8089 -v $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
+2. Run **locust** locally ```docker run -p 8089:8089 --volume $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
 3. Start load-test
     * Open load-test GUI in browser
       http://localhost:8089
@@ -383,6 +409,7 @@ Inspect configmaps:
 ```shell
 kubectl get configmaps
 kubectl describe configmap demo-configmap-file
+kubectl describe configmap demo-configmap-env
 ```
 
 Update your

@@ -133,7 +133,8 @@ In this step you will generate a **web** application that has **health endpoint*
 
 ## Step 2: Dockerize the java application
 
-In this step you will package the application as a Docker container image, so that k8s wouldn't care what language or tech stack our application uses.
+In this step you will package the application as a Docker container image,
+so that k8s wouldn't care what language or tech stack our application uses.
 
 1. Copy [Dockerfile](Dockerfile) to the root folder of the java application (So dockerfile and unzipped java app is in
    the same folder)
@@ -378,7 +379,8 @@ watch "kubectl top pods && kubectl get pods,horizontalpodautoscalers"
 In another console generate load to your service with following commands
 
 1. Make sure you have copied [loadtest python script](loadtest.py)
-2. Run **locust** locally ```docker run -p 8089:8089 --volume $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
+2. Run **locust** locally using:
+   ```docker run -p 8089:8089 --volume $PWD:/mnt/locust locustio/locust -f /mnt/locust/loadtest.py```
 3. Start load-test
     * Open load-test GUI in browser
       http://localhost:8089
@@ -391,9 +393,11 @@ In another console generate load to your service with following commands
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see
 effects of autoscaler.
 
-## Step 8: Create configmap
+## Step 8: Create ConfigMap
 
-### Let's attach configmap as file to our containers.
+This step shows you how to create and use ConfigMaps in different ways 
+
+### Create ConfigMaps
 
 > When creating deployment we provided some configuration values via environment variables.
 > Using secrets would be another option (out of the scope for this WS).
@@ -411,6 +415,11 @@ kubectl get configmaps
 kubectl describe configmap demo-configmap-file
 kubectl describe configmap demo-configmap-env
 ```
+
+### Use ConfigMap as file for to your containers
+
+After this, data from ConfigMap will be mounted to pod as file
+(/conf/some-config.yaml)
 
 Update your
 [deployment.yaml](deployment.yaml)
@@ -459,11 +468,11 @@ kubectl exec -it [[podname]] -- bash
 cat /conf/some-config.yaml
 ```
 
-### Let's inject single environment variable from configmap
+### Use single value from ConfigMap as environment variable to your deployment
 
 Update your
 [deployment.yaml](deployment.yaml)
-and add envFrom instruction.
+and add environment variable using valueFrom instruction:
 
 ```diff
           env:
@@ -499,7 +508,7 @@ kubectl exec -it [[podname]] -- bash
 env | grep DEMO_ENV
 ```
 
-### Let's inject all environment variables from configmap
+### Use all environment variables from ConfigMap as environment variables for your deployment
 
 Update your
 [deployment.yaml](deployment.yaml)

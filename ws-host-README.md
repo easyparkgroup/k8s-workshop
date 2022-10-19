@@ -31,6 +31,11 @@ without needing to ask account owner to set up Billing for you.
 * NB! Set autoscaling for node-pool, min 1 node max 10 (Set node amount to 1)
 * Wait about 5 minutes until cluster is created
 
+### Update references in readme
+
+* Google Cloud project
+* Kubernetes cluster
+
 ### Add participants
 
 IAM -> Add -> enter participant emails -> role: Basic>Editor -> Save

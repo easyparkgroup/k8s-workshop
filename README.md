@@ -45,7 +45,7 @@ gcloud auth login
 ```shell
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials 
 # and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials k8s-ws-22 --zone europe-west1-b --project k8s-ws-22
+gcloud container clusters get-credentials k8s-ws-1 --zone europe-west1-b --project k8s-ws-1
 ```
 
 > If it fails, you need to install
@@ -76,7 +76,7 @@ kubectl get nodes
 # see existing namespaces
 kubectl get namespaces
 
-# create your private namespace inside k8s-ws-8 cluster (isolates your stuff from other participants)
+# create your private namespace inside kubernetes cluster (isolates your stuff from other participants)
 kubectl create namespace my-name
 
 # see list of contexts and configured default namespace for them (line with star shows active context)
@@ -133,16 +133,16 @@ Let's create a docker image, so that k8s wouldn't care what language or tech sta
 
 4. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-22/my-name:1```
+6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-1/my-name:1```
 
 ## Step 3: Push the image to Container Registry
 
 Follow sub-steps bellow, after that you can see uploaded images via web interface:
-https://console.cloud.google.com/gcr/images/k8s-ws-22
+https://console.cloud.google.com/gcr/images/k8s-ws-1
 
 ### Intel/AMD Users
 
-1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-22/my-name:1```
+1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-1/my-name:1```
     1. If you have problems, run `gcloud auth configure-docker`
 
 ### Mac M1 Users
@@ -154,7 +154,7 @@ Normally you would build and push compatible image in CI server, so there wouldn
 There are now two options for you:
 
 1. Try to build amd64 image locally (this should work with our demo application, but could fail with others):
-   ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-22/my-name:2 .```
+   ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-1/my-name:2 .```
 2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 
 ## Step 4: Create deployment

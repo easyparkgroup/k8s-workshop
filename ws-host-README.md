@@ -4,14 +4,25 @@ Stuff to do in order to prepare the workshop
 
 ## Prepare cloud env
 
-Use same name for Google Cloud project and k8s cluster, for example
-k8s-ws-${number of the workshop}
+* Create new Google account, for example with email epk8sws${number of the workshop}@gmail.com
+
+> Then you get $300 credit, without having to worry about paying.
+
+* Create new Google Cloud project, for example k8s-ws-${number of the workshop}
 
 ### Create G-Cloud project k8s-ws-${number of the workshop}
 
+Creating new project into your own Google Account dedicated for the workshop is the easiest option.
+Then you can set up everything yourself without involving others.
+
+Alternative:
+Use same name for Google Cloud project and k8s cluster, for example
+k8s-ws-${number of the workshop}
+
 ### Enable Kubernetes engine & billing
 
-This means that Mikk or someone else with EasyPark billing account needs to enable it.
+If you created new Google account, you can set up Billing (that is needed for Kubernetes Engine) yourself
+without needing to ask account owner to set up Billing for you.
 
 ### Create Kubernetes cluster
 

@@ -112,6 +112,9 @@ If it doesn't work without sudo, follow
 [Docker Post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
 to allow non-privileged users to run Docker commands.
 
+Congratulations! You have completed the preparation steps for the workshop!
+**Following steps are part of the workshop that we'll go through together during the meeting!**
+
 ## Step 1: Create java application
 
 In this step you will generate a **web** application that has **health endpoint** (needed for k8s).

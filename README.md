@@ -318,7 +318,7 @@ kubectl describe ingress demo
 You should be able to access
 `http://[[hostName]]/my-name/actuator/health`
 from public internet (i.e. using your browser or curl). The full url should look
-like `http://34.140.118.144.nip.io/my-name/actuator/health`
+like `http://35.187.47.62.nip.io/my-name/actuator/health`
 
 > Note, on linux you can use `watch` to monitor changes of outputs of one or more commands:
 > `watch "kubectl get ingress && kubectl describe ingress demo && curl http://[[hostName]]/[[yourName]]/actuator/health"`
@@ -362,7 +362,7 @@ In another console generate load to your service with following commands
     * Configure load test:
         * Number of users: 25
         * Spawn rate (users started/second): 10
-        * Host: public url to your service via ingress, such as `http://34.140.118.144.nip.io/my-name/actuator/health`
+        * Host: public url to your service via ingress, such as `http://35.187.47.62.nip.io/my-name/actuator/health`
     * Start load test by clicking `Start swarming`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see

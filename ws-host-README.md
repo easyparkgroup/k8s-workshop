@@ -9,7 +9,7 @@ k8s-ws-${number of the workshop}
 ### Create G-Cloud project k8s-ws-${number of the workshop}
 
 ### Enable Kubernetes engine & billing
-This means that Mikk or someone else with Concise billing account needs to enable it.
+This means that Mikk or someone else with EasyPark billing account needs to enable it.
 
 ### Create Kubernetes cluster
 cluster type: standard

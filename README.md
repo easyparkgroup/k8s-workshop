@@ -33,7 +33,7 @@ Please install these:
 Open the terminal and run following lines one by one:
 ```shell
 # after following command browser will be opened, 
-# where you should log into google cloud with Concise email to authenticate `gcloud` CLI
+# where you should log into google cloud with EasyPark email to authenticate `gcloud` CLI
 gcloud auth login
 ```
 

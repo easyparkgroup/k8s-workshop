@@ -446,7 +446,7 @@ with configMap mounted from volume:
 +          configMap:
 +            name: demo-configmap-file
 +            items:
-+              - key: some-config.yaml
++              - key: lorem-ipsum
 +                path: some-config.yaml
 ```
 

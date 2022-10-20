@@ -413,7 +413,8 @@ This step shows you how to create and use ConfigMaps in different ways
 Use that configuration file to create configmap:
 
 ```shell
-kubectl apply -f configmap.yaml
+kubectl apply -f configmap.file.yaml
+kubectl apply -f configmap.key-value.yaml
 ```
 
 Inspect configmaps:

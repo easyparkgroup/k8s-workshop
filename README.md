@@ -50,7 +50,7 @@ gcloud auth login
 ```shell
 # updates a kubeconfig file (~/.kube/config) with appropriate credentials 
 # and endpoint information to point kubectl at a specific cluster in Google Kubernetes Engine.
-gcloud container clusters get-credentials k8s-ws-1 --zone europe-west1-b --project k8s-ws-1
+gcloud container clusters get-credentials k8s-ws-2-ep --zone europe-west1-b --project k8s-ws-2-ep
 ```
 
 > If it fails, you need to install
@@ -153,7 +153,7 @@ so that k8s wouldn't care what language or tech stack our application uses.
 
 4. Run it locally in the foreground: ```docker run --name my-name --rm -p 8080:8080 my-name:latest```
 5. Open browser and check the health endpoint responds at http://localhost:8080/actuator/health
-6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-1/my-name:1```
+6. Tag the docker image ```docker tag my-name:latest eu.gcr.io/k8s-ws-2-ep/my-name:1```
 
 ## Step 3: Push the image to Container Registry
 
@@ -161,11 +161,11 @@ In this step you willupload the application Docker container image to Google Con
 so that when deploying the application, Kubernetes would be able to use that image.
 
 Follow sub-steps bellow, after that you can see uploaded images via web interface:
-https://console.cloud.google.com/gcr/images/k8s-ws-1
+https://console.cloud.google.com/gcr/images/k8s-ws-2-ep
 
 ### Intel/AMD Users
 
-1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-1/my-name:1```
+1. Push the docker image to docker repository ```docker push eu.gcr.io/k8s-ws-2-ep/my-name:1```
 
 > If you have problems, you may have not configure docker credentials properly - see Step 0
 
@@ -178,7 +178,7 @@ Normally you would build and push compatible image in CI server, so there wouldn
 There are now two options for you:
 
 1. Try to build amd64 image locally (this should work with our demo application, but could fail with others):
-   ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-1/my-name:2 .```
+   ```docker buildx build --push --platform linux/amd64 --tag eu.gcr.io/k8s-ws-2-ep/my-name:2 .```
 2. In the next step, when you specify the image to run, you could use a prebuilt one such as `my-name:1`
 
 ## Step 4: Create deployment
@@ -352,7 +352,7 @@ kubectl describe ingress demo
 You should be able to access
 `http://[[hostName]]/my-name/actuator/health`
 from public internet (i.e. using your browser or curl). The full url should look
-like `http://35.187.47.62.nip.io/my-name/actuator/health`
+like `http://34.78.158.222.nip.io/my-name/actuator/health`
 
 ## Step 7: Create autoscaler
 
@@ -395,7 +395,7 @@ In another console generate load to your service with following commands
     * Configure load test:
         * Number of users: 25
         * Spawn rate (users started/second): 10
-        * Host: public url to your service via ingress, such as `http://35.187.47.62.nip.io/my-name/actuator/health`
+        * Host: public url to your service via ingress, such as `http://34.78.158.222.nip.io/my-name/actuator/health`
     * Start load test by clicking `Start swarming`
 
 Now back in the watch terminal you should soon see an increase in CPU usage and after about half minute you should see

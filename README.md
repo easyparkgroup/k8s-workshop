@@ -124,7 +124,7 @@ In this step you will generate a **web** application that has **health endpoint*
 2. Choose these options
     1. Project: Gradle Project
     2. Language: Java
-    3. Spring Boot: 2.7.4 (or what the default is)
+    3. Spring Boot: 2.7.6 don't use 3.0.0
     4. Project metadata:
         1. defaults
         2. Java: 11

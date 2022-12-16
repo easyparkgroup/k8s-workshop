@@ -141,7 +141,9 @@ In this step you will generate a **web** application that has **health endpoint*
     1. Spring Web
     2. Spring Boot Actuator
 4. Generate (download)
-5. Unzip to a folder in your computer
+5. **NB! Double check choices and added dependencies match instructions above**
+> Otherwise you'll encounter issues later and need to recreate the project!
+6. Unzip to a folder in your computer
 
 ## Step 2: Dockerize the java application
 

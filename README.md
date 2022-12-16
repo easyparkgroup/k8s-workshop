@@ -35,6 +35,15 @@ Please install these:
 * kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/) - if you already have one,
   then check that the version is new enough (in one of the following steps)
 
+### Join The Google Cloud Project where Kubernetes cluster is set up
+
+Accept the Google Cloud project invite via email
+"Join my project on Google Developers Console"
+to prevent failure in next step
+(when connecting to the Kubernetes cluster):
+> ERROR: (gcloud.container.clusters.get-credentials) ResponseError: code=403, message=Required "container.clusters.get"
+> permission(s) for "projects/k8s-ws-2-ep/zones/europe-west1-b/clusters/k8s-ws-2-ep".
+
 ### Connect to workshop k8s cluster and create your personal k8s namespace
 
 Open the terminal and run following lines one by one:

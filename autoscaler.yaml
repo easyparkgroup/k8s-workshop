@@ -1,4 +1,4 @@
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: demo
@@ -10,11 +10,13 @@ spec:
   minReplicas: 1
   maxReplicas: 3
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      # For auto-scaling demo purposes via load test, here we ask to scale up already when 25% of requested CPU is utilized
-      # (to avoid overloading the workshop k8s cluster)
-      # but normally you would set it to ca 80 to 100 percents
-      # (depending on weather you want to optimize for the processing speed for unexpected load peaks or saving cost)
-      targetAverageUtilization: 25 # exceeding this % of container `resources.requests.cpu` will trigger autoscaling after a while
+    - type: Resource
+      resource:
+        name: cpu
+        # For auto-scaling demo purposes via load test, here we ask to scale up already when 25% of requested CPU is utilized
+        # (to avoid overloading the workshop k8s cluster)
+        # but normally you would set it to ca 80 to 100 percents
+        # (depending on weather you want to optimize for the processing speed for unexpected load peaks or saving cost)
+        target:
+          type: AverageValue
+          averageUtilization: 25 # exceeding this % of container `resources.requests.cpu` will trigger autoscaling after a while
